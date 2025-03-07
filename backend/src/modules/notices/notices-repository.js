@@ -61,7 +61,7 @@ const addNewNotice = async (payload) => {
   const {
     title,
     status,
-    description,
+    content: description,
     recipientType,
     recipientRole,
     firstField: recipientFirstField,

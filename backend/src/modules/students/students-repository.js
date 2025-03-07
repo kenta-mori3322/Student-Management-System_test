@@ -111,11 +111,24 @@ const findStudentToUpdate = async (paylaod) => {
     return rows;
 }
 
+const deleteStudentById = async (id) => {
+    // First delete from user_profiles (due to foreign key constraint)
+    const profileQuery = "DELETE FROM user_profiles WHERE user_id = $1";
+    await processDBRequest({ query: profileQuery, queryParams: [id] });
+    
+    // Then delete from users table
+    const userQuery = "DELETE FROM users WHERE id = $1";
+    const result = await processDBRequest({ query: userQuery, queryParams: [id] });
+    
+    return result;
+}
+
 module.exports = {
     getRoleId,
     findAllStudents,
     addOrUpdateStudent,
     findStudentDetail,
     findStudentToSetStatus,
-    findStudentToUpdate
+    findStudentToUpdate,
+    deleteStudentById
 };
